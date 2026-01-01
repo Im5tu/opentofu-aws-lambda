@@ -1,0 +1,25 @@
+module "iam_this" {
+  source = "git::https://github.com/im5tu/opentofu-aws-iam-role.git?ref=main"
+
+  name_prefix = var.name
+  tags = merge(var.tags, {
+    Name = var.name
+  })
+  assume_role_services     = ["lambda.amazonaws.com"]
+  external_attachment_arns = concat(["arn:aws:iam::aws:policy/service-role/AWSLambdaENIManagementAccess"], var.iam_policy_attachments)
+  policies = merge(var.iam_inline_policies, {
+    "cloudwatch" = data.aws_iam_policy_document.cloudwatch.json
+  })
+}
+
+data "aws_iam_policy_document" "cloudwatch" {
+  statement {
+    sid    = "AllowCloudwatchLogsAccess"
+    effect = "Allow"
+    actions = [
+      "logs:PutLogEvents",
+      "logs:CreateLogStream"
+    ]
+    resources = [aws_cloudwatch_log_group.this.arn, "${aws_cloudwatch_log_group.this.arn}:*"]
+  }
+}
