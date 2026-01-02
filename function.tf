@@ -26,6 +26,10 @@ resource "aws_lambda_function" "handler_lambda" {
     }
   }
 
+  dead_letter_config {
+    target_arn = var.dead_letter_target_arn
+  }
+
   environment {
     variables = var.environment_variables
   }

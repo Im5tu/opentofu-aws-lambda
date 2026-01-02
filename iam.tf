@@ -11,7 +11,8 @@ module "iam_this" {
     var.iam_policy_attachments
   )
   policies = merge(var.iam_inline_policies, {
-    "cloudwatch" = data.aws_iam_policy_document.cloudwatch.json
+    "cloudwatch"  = data.aws_iam_policy_document.cloudwatch.json
+    "dead_letter" = data.aws_iam_policy_document.dead_letter.json
   })
 }
 
@@ -24,5 +25,17 @@ data "aws_iam_policy_document" "cloudwatch" {
       "logs:CreateLogStream"
     ]
     resources = [aws_cloudwatch_log_group.this.arn, "${aws_cloudwatch_log_group.this.arn}:*"]
+  }
+}
+
+data "aws_iam_policy_document" "dead_letter" {
+  statement {
+    sid    = "AllowDeadLetterAccess"
+    effect = "Allow"
+    actions = [
+      "sqs:SendMessage",
+      "sns:Publish"
+    ]
+    resources = [var.dead_letter_target_arn]
   }
 }
