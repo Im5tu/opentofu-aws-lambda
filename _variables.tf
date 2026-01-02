@@ -60,7 +60,7 @@ variable "package_type" {
 }
 
 variable "function_architecture" {
-  description = "The aarchitecture to be used for the lambda. Options: x86_64 / arm64"
+  description = "The architecture to be used for the lambda. Options: x86_64 / arm64"
   type        = string
   default     = "arm64"
 }

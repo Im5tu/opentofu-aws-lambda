@@ -1,5 +1,5 @@
 module "iam_this" {
-  source = "git::https://github.com/im5tu/opentofu-aws-iam-role.git?ref=main"
+  source = "git::https://github.com/im5tu/opentofu-aws-iam-role.git?ref=847ba166bc7c2e147573ff8d222487ca22347e15"
 
   name_prefix = var.name
   tags = merge(var.tags, {
