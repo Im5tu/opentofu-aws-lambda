@@ -5,7 +5,7 @@ module "iam_this" {
   tags = merge(var.tags, {
     Name = var.name
   })
-  assume_role_services     = ["lambda.amazonaws.com"]
+  assume_role_services = ["lambda.amazonaws.com"]
   external_attachment_arns = concat(
     length(var.vpc_subnet_ids) > 0 ? ["arn:aws:iam::aws:policy/service-role/AWSLambdaENIManagementAccess"] : [],
     var.iam_policy_attachments
