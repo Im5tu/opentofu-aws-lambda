@@ -74,6 +74,7 @@ variable "cloudwatch_logs_retention_in_days" {
 variable "dead_letter_target_arn" {
   description = "ARN of SNS topic or SQS queue for failed async invocations"
   type        = string
+  default     = null
 }
 
 variable "iam_inline_policies" {
